@@ -26,7 +26,7 @@ class Ball(pygame.sprite.Sprite):
     def update(self) -> None:
         pygame.draw.circle(self.image, self.color, self.CENTER, self.RADIUS)
         if self.isout:
-            return True
+            return None
 
         if self.rect.left < self.lower_bound or self.rect.right > self.upper_bound:
             self.set_out_attr(True)
