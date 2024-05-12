@@ -3,10 +3,12 @@ import sys
 from player import Player
 from enemy import Enemy
 from ball import Ball
+from score import Score
 
 class Game:
     HITTER_SIZE = (10, 200)
     HITTER_OFFSET = 20
+    WHITE = pygame.Color(255, 255, 255, 255)
     def __init__(self):
         self.bg_color = pygame.Color(50, 50, 50, 150)
         self.width = 1000
@@ -21,7 +23,12 @@ class Game:
         self.enemy_hitter = Enemy((self.screen_rect.width-self.HITTER_SIZE[0]-self.HITTER_OFFSET, 0), self.HITTER_SIZE, self.enemy, (0, 255, 0, 255))
 
         self.ball = pygame.sprite.GroupSingle(Ball(self.screen_rect.center, offset_x=self.HITTER_OFFSET))
+        
+        self.score_count = 0
+        self.score = Score(self.score_count, self.screen, self.ball.sprite, self.WHITE)
+
         self.clock = pygame.time.Clock()
+
 
     def handle_event(self):
         for event in pygame.event.get():
@@ -31,9 +38,8 @@ class Game:
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 ball_sprite = self.ball.sprite
-                if ball_sprite.get_out_attr(): #if ball is at rest start movement
-                    ball_sprite.set_out_attr(False) 
-
+                if ball_sprite.get_rest(): #if ball is at rest start movement
+                    ball_sprite.set_rest(False)
 
     def run(self):
         while True:
@@ -42,8 +48,10 @@ class Game:
             
             self.player.update(self.ball.sprite)
             self.enemy.update(self.ball.sprite)
+            self.score.update()
             self.ball.update()
 
+            self.score.draw()
             self.player.draw(self.screen)
             self.enemy.draw(self.screen) 
             self.ball.draw(self.screen)
@@ -53,6 +61,7 @@ class Game:
 
 def main():
     pygame.init()
+    pygame.font.init()
     game = Game()
     game.run()
 

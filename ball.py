@@ -21,15 +21,15 @@ class Ball(pygame.sprite.Sprite):
         self.display_surface_rect = pygame.display.get_surface().get_rect(topleft=(0, 0))
         self.lower_bound = offset_x
         self.upper_bound = self.display_surface_rect.right - offset_x
-        self.isout = True #initially set ball at rest
+        self.rest = True #initially set ball at rest
 
     def update(self) -> None:
         pygame.draw.circle(self.image, self.color, self.CENTER, self.RADIUS)
-        if self.isout:
+        if self.rest:
             return None
 
-        if self.rect.left < self.lower_bound or self.rect.right > self.upper_bound:
-            self.set_out_attr(True)
+        if self.out_boundry_left() or self.out_boundry_right():
+            self.set_rest(True)
             self.reset()
 
         self.rect.x += (self.speedX * self.direction_x)
@@ -43,13 +43,19 @@ class Ball(pygame.sprite.Sprite):
         self.speedY += (center_diff * self.FACTOR)
         self.direction_x *= -1
     
-    def set_out_attr(self, is_out: bool):
-        self.isout = is_out
+    def set_rest(self, is_out: bool):
+        self.rest = is_out
     
-    def get_out_attr(self):
-        return self.isout
+    def get_rest(self):
+        return self.rest
     
     def reset(self):
         self.speedY = 0
         self.direction_x = choice([-1, 1])
         self.rect.center = self.display_surface_rect.center
+    
+    def out_boundry_left(self):
+        return self.rect.left < self.lower_bound
+    
+    def out_boundry_right(self):
+        return self.rect.right > self.upper_bound

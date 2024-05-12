@@ -8,7 +8,7 @@ class Enemy(Hitter):
     #fixing glitchiness in enemy hitter 
     def update(self, ball: pygame.sprite.Sprite):
         super().update(ball)
-        if ball.direction_x < 0 or ball.get_out_attr():
+        if ball.direction_x < 0 or ball.get_rest():
             return
         center_diff: int = abs(self.rect.centery - ball.rect.centery)
         adjusted_speed: int  = min(center_diff, self.SPEED) #assuming distance wont be much larger
