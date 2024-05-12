@@ -5,6 +5,7 @@ from ball import Ball
 class Hitter(pygame.sprite.Sprite):
     BORDER_RADIUS = 3
     SPEED = 15
+    
     def __init__(self, position: tuple[int, int], size: tuple[int, int], group: pygame.sprite.GroupSingle, color=(0, 255, 0, 255)):
         super().__init__(group)
         self.image = pygame.Surface(size)
@@ -19,17 +20,10 @@ class Hitter(pygame.sprite.Sprite):
     def update(self, ball: Ball):
         pygame.draw.rect(self.image, self.color, (0, 0, *self.rect.size), 0, self.BORDER_RADIUS)
         
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_UP]:
-            self.direction_y = -1
-        elif keys[pygame.K_DOWN]:
-            self.direction_y = 1
-        else:
-            self.direction_y = 0
-
-        self.rect.y += (self.SPEED * self.direction_y)
-        
         if self.rect.y > self.upper_bound:
             self.rect.y = self.upper_bound
         elif self.rect.y < 0:
             self.rect.y = self.lower_bound
+
+        if pygame.sprite.collide_rect(self, ball):
+            ball.collision_reaction(self)

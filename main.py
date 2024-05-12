@@ -1,6 +1,6 @@
 import pygame
 import sys
-from hitter import Hitter
+from player import Player
 from enemy import Enemy
 from ball import Ball
 
@@ -15,7 +15,7 @@ class Game:
         self.screen_rect = self.screen.get_rect(topleft=(0, 0))
 
         self.player = pygame.sprite.GroupSingle()
-        self.player_hitter = Hitter( (self.HITTER_OFFSET, 0), self.HITTER_SIZE, self.player )
+        self.player_hitter = Player( (self.HITTER_OFFSET, 0), self.HITTER_SIZE, self.player )
 
         self.enemy = pygame.sprite.GroupSingle()
         self.enemy_hitter = Enemy((self.screen_rect.width-self.HITTER_SIZE[0]-self.HITTER_OFFSET, 0), self.HITTER_SIZE, self.enemy, (0, 255, 0, 255))
