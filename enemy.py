@@ -8,7 +8,7 @@ class Enemy(Hitter):
 
     def update(self, ball: pygame.sprite.Sprite):
         super().update(ball)
-        if ball.direction_x < 0:
+        if ball.direction_x < 0 or ball.get_out_attr():
             return
         if ball.rect.centery > self.rect.centery:
             self.rect.y += self.SPEED

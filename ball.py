@@ -9,7 +9,8 @@ class Ball(pygame.sprite.Sprite):
     SPEED = 8
     FACTOR = 0.1 #either to increase or decrease speed by 10%
 
-    def __init__(self, position: tuple[int, int]):
+    #adding offset
+    def __init__(self, position: tuple[int, int], offset_x: int):
         super().__init__()
         self.image = pygame.Surface(self.BALL_SIZE)
         self.rect = self.image.get_rect(topleft=position)
@@ -18,9 +19,19 @@ class Ball(pygame.sprite.Sprite):
         self.speedX = self.SPEED
         self.speedY = self.SPEED * choice([-1, 1, 0])
         self.display_surface_rect = pygame.display.get_surface().get_rect(topleft=(0, 0))
+        self.lower_bound = offset_x
+        self.upper_bound = self.display_surface_rect.right - offset_x
+        self.isout = True #initially set ball at rest
 
-    def update(self):
+    def update(self) -> None:
         pygame.draw.circle(self.image, self.color, self.CENTER, self.RADIUS)
+        if self.isout:
+            return True
+
+        if self.rect.left < self.lower_bound or self.rect.right > self.upper_bound:
+            self.set_out_attr(True)
+            self.reset()
+
         self.rect.x += (self.speedX * self.direction_x)
         self.rect.y += (self.speedY)
 
@@ -31,3 +42,14 @@ class Ball(pygame.sprite.Sprite):
         center_diff = sprite.rect.centery - self.rect.centery #hitter.centery - ball.centery
         self.speedY += (center_diff * self.FACTOR)
         self.direction_x *= -1
+    
+    def set_out_attr(self, is_out: bool):
+        self.isout = is_out
+    
+    def get_out_attr(self):
+        return self.isout
+    
+    def reset(self):
+        self.speedY = 0
+        self.direction_x = choice([-1, 1])
+        self.rect.center = self.display_surface_rect.center

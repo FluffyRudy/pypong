@@ -20,7 +20,7 @@ class Game:
         self.enemy = pygame.sprite.GroupSingle()
         self.enemy_hitter = Enemy((self.screen_rect.width-self.HITTER_SIZE[0]-self.HITTER_OFFSET, 0), self.HITTER_SIZE, self.enemy, (0, 255, 0, 255))
 
-        self.ball = pygame.sprite.GroupSingle(Ball(self.screen_rect.center))
+        self.ball = pygame.sprite.GroupSingle(Ball(self.screen_rect.center, offset_x=self.HITTER_OFFSET))
         self.clock = pygame.time.Clock()
 
     def handle_event(self):
@@ -28,6 +28,12 @@ class Game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                ball_sprite = self.ball.sprite
+                if ball_sprite.get_out_attr(): #if ball is at rest start movement
+                    ball_sprite.set_out_attr(False) 
+
 
     def run(self):
         while True:
