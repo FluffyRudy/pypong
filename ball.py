@@ -7,9 +7,8 @@ class Ball(pygame.sprite.Sprite):
     CENTER = (BALL_SIZE[0] // 2, BALL_SIZE[1] // 2)
     RADIUS = (BALL_SIZE[0] + BALL_SIZE[1]) // 4
     SPEED = 8
-    FACTOR = 0.1 #either to increase or decrease speed by 10%
+    FACTOR = 0.1
 
-    #adding offset
     def __init__(self, position: tuple[int, int], offset_x: int):
         super().__init__()
         self.image = pygame.Surface(self.BALL_SIZE)
@@ -18,7 +17,8 @@ class Ball(pygame.sprite.Sprite):
         self.direction_x = choice([-1, 1])
         self.speedX = self.SPEED
         self.speedY = self.SPEED * choice([-1, 1, 0])
-        self.display_surface_rect = pygame.display.get_surface().get_rect(topleft=(0, 0))
+        self.display_surface = pygame.display.get_surface()
+        self.display_surface_rect = self.display_surface.get_rect(topleft=(0, 0))
         self.lower_bound = offset_x
         self.upper_bound = self.display_surface_rect.right - offset_x
         self.rest = True #initially set ball at rest
@@ -34,9 +34,13 @@ class Ball(pygame.sprite.Sprite):
 
         self.rect.x += (self.speedX * self.direction_x)
         self.rect.y += (self.speedY)
-
-        if self.rect.bottom > self.display_surface_rect.bottom  or self.rect.top < self.rect.height//2:
+        
+        if self.rect.bottom > self.display_surface_rect.bottom:
             self.speedY *= -1
+            self.rect.bottom = self.display_surface_rect.bottom
+        elif self.rect.top < self.display_surface_rect.top:
+            self.speedY *= -1
+            self.rect.top = self.display_surface_rect.top
 
     def collision_reaction(self, sprite: pygame.sprite.Sprite):
         center_diff =  self.rect.centery - sprite.rect.centery
