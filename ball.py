@@ -21,7 +21,7 @@ class Ball(pygame.sprite.Sprite):
         self.display_surface_rect = self.display_surface.get_rect(topleft=(0, 0))
         self.lower_bound = offset_x
         self.upper_bound = self.display_surface_rect.right - offset_x
-        self.rest = True #initially set ball at rest
+        self.rest = True
 
     def update(self) -> None:
         pygame.draw.circle(self.image, self.color, self.CENTER, self.RADIUS)
