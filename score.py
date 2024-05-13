@@ -8,22 +8,23 @@ class Score:
         self.display_surface_rect: pygame.Rect = self.disply_surface.get_rect(topleft=(0, 0))
         self.sprite_obj = based_sprite
         self.text = 0
-        self.count = initial_score #score count
+        self.player_count = initial_score
+        self.ai_count = initial_score
         self.color = font_color
 
     def update(self):
         if self.sprite_obj.out_boundry_right():
-            self.increase_score()
+            self.increase_player_score()
         elif self.sprite_obj.out_boundry_left():
-            self.decrease_score()
+            self.increase_ai_score()
 
-    def increase_score(self):
-        self.count += 1
+    def increase_player_score(self):
+        self.player_count += 1
     
-    def decrease_score(self):
-        self.count -= 1
+    def increase_ai_score(self):
+        self.ai_count += 1
 
     def draw(self):
-        font_surface = self.font.render(f"{self.count}", True, self.color)
-        position_x = (self.display_surface_rect.centerx - font_surface.get_width() // 2)
-        self.disply_surface.blit(font_surface, (position_x, font_surface.get_height()))
+        score_surface = self.font.render(f"{self.player_count} - {self.ai_count}", True, self.color)
+        position_x_player = (self.display_surface_rect.centerx - score_surface.get_width() // 2)
+        self.disply_surface.blit(score_surface, (position_x_player, score_surface.get_height()))

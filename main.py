@@ -6,7 +6,7 @@ from ball import Ball
 from score import Score
 
 class Game:
-    HITTER_SIZE = (10, 200)
+    HITTER_SIZE = (10, 100)
     HITTER_OFFSET = 20
     WHITE = pygame.Color(255, 255, 255, 255)
     def __init__(self):
@@ -38,7 +38,7 @@ class Game:
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 ball_sprite = self.ball.sprite
-                if ball_sprite.get_rest(): #if ball is at rest start movement
+                if ball_sprite.get_rest():
                     ball_sprite.set_rest(False)
 
     def run(self):
