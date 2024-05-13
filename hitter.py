@@ -11,7 +11,7 @@ class Hitter(pygame.sprite.Sprite):
         self.image = pygame.Surface(size)
         self.rect = self.image.get_rect(topleft=position)
         self.color = pygame.Color(color)
-        self.border = Hitter.BORDER_RADIUS 
+        self.border = Hitter.BORDER_RADIUS
         self.direction_y = 0
         self.display_surface_rect = pygame.display.get_surface().get_rect(topleft=(0, 0))
         self.lower_bound = 0
