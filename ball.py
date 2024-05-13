@@ -39,7 +39,7 @@ class Ball(pygame.sprite.Sprite):
             self.speedY *= -1
 
     def collision_reaction(self, sprite: pygame.sprite.Sprite):
-        center_diff = sprite.rect.centery - self.rect.centery #hitter.centery - ball.centery
+        center_diff =  self.rect.centery - sprite.rect.centery
         self.speedY += (center_diff * self.FACTOR)
         self.direction_x *= -1
     
