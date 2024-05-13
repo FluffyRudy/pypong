@@ -35,7 +35,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect.x += (self.speedX * self.direction_x)
         self.rect.y += (self.speedY)
 
-        if self.rect.bottom > self.display_surface_rect.bottom  or self.rect.top < 0:
+        if self.rect.bottom > self.display_surface_rect.bottom  or self.rect.top < self.rect.height//2:
             self.speedY *= -1
 
     def collision_reaction(self, sprite: pygame.sprite.Sprite):
